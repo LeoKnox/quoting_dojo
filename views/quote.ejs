@@ -1,0 +1,14 @@
+<html>
+    <head>
+        <title>Quotes</title>
+    </head>
+    <body>
+        <h2>Here are (awe?)some quotes!</h2>
+        <% for (var x of data) {%>
+            <h3>"<%= x.quote %>"</h3>
+            <p>-<%= x.name %> at <%= x.createdAt %></p><br>
+        <% } %>
+
+
+    </body>
+</html>

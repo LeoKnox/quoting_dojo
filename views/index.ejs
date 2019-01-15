@@ -1,12 +1,16 @@
 <html>
     <head>
-        <title>Mongoose Overview</title>
+        <title>Quoting Dojo</title>
     </head>
-    <form action="/users">
-        name:
-        <input type="text" name="name"><br>
-        age:
-        <input type="text" name="age"><br>
-        <input type="submit" value="send">
-    </form>
+    <body>
+        <h2>Welcome to Quoting Dojo</h2>
+        <form action="/quotes" method="post">
+            Your name:
+            <input type="text" name="name"><br>
+            Your quote:
+            <input type="text" name="quote"><br>
+            <input type="submit" value="post">
+        </form>
+        <a href="/quotes">skip</a>
+    </body>
 </html>

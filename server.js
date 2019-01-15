@@ -7,32 +7,47 @@ var path = require('path');
 var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/basic_mongoose');
 
-app.use(express.static(path.join(__dirname, './static')));
+app.use(express.static(path.join(__dirname, './views')));
 app.set('views', path.join(__dirname, './views'));
 app.set('view engine', 'ejs');
 
-var UserSchema = new mongoose.Schema({
-    name: String, //(type:String, minlength:2) for validation
-    age: Number
-}) //({timestamp:true})
-mongoose.model('User', UserSchema);
-var User = mongoose.model('User');
+var QuoteSchema = new mongoose.Schema({
+    name: {type:String, require:true, minlength:2},
+    quote: {type:String, require:true, minlength:2}
+}, {timestamps: true});
+mongoose.model('Quote', QuoteSchema);
+var Quo = mongoose.model('Quote');
 
 app.get('/', function(req, res) {
     res.render('index');
 })
-app.post('/users', function(req,res) {
-    console.log("POST DATA", req.body);
-    var user = new User({name: req.body.name, age: req.body.age});
-    user.save(function(err) {
-        if(err) {
-            console.log('something went wrong');
+
+app.get('/quotes', function(req, res) {
+    var info = {};
+    Quo.find({}, function(err, info) {
+        if (err) {
+            console.log(err);
         } else {
-            console.log('successfully added a user');
+            console.log(info[0].name);
+            res.render('quote', {data: info});
         }
-        res.redirect('/');
     })
-    //res.redirect('/');
+})
+
+app.post('/quotes', function(req, res) {
+    console.log(req.body.name);
+    var newname = req.body.name;
+    var newquote = req.body.quote;
+    var newobj = new Quo ({name: newname, quote:newquote});
+    var info = {};
+    newobj.save(function(err){
+        if (err) {
+            console.log(err);
+        } else {
+            console.log('ok');
+        };
+    });
+    res.redirect('/quotes');
 })
 
 app.listen(8000, function() {
